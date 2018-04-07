@@ -9,22 +9,22 @@ use std::io::BufReader;
 use std::io::Error;
 use std::io::prelude::*;
 
-fn action_deserialize(s: &String) -> Action {
-    match s.as_ref() {
-        "A" => Action::Attack,
-        "B" => Action::Break,
-        "G" => Action::Guard,
-        "S" => Action::Special,
-        _ => panic!("Deserialize bad value!"),
+pub fn read_pattern(r: &Regex, line: &String, start: usize) -> Vec<Action> {
+    let mut acts = vec![];
+    for cap in r.captures_iter(line) {
+        for a in start..cap.len() {
+            acts.push(Action::deserialize(&cap[a].to_string()));
+        }
     }
+    acts
 }
 
 pub fn enemy_builder(filename: &String) -> Result<HashMap<String, Enemy>, Error> {
     let mut enemy_map = HashMap::new();
 
     lazy_static!{
-        static ref RE_NAME: Regex = Regex::new(r"^(.+):\s*$").unwrap();
-        static ref RE_ACTIONS: Regex = Regex::new(r"^([AGBS_])\s+([AGBS_])\s+([AGBS_])\s+([AGBS_])\s+([AGBS_])\s+([AGBS_])\s*$").unwrap();
+        static ref RE_NAME: Regex = Regex::new(r"^(.+):$").unwrap();
+        static ref RE_ACTIONS: Regex = Regex::new(r"^([AGBS_])\s+([AGBS_])\s+([AGBS_])\s+([AGBS_])\s+([AGBS_])\s+([AGBS_])$").unwrap();
     }
 
     let mut curr_name = String::from("");
@@ -33,7 +33,7 @@ pub fn enemy_builder(filename: &String) -> Result<HashMap<String, Enemy>, Error>
 
     let file = File::open(filename)?;
     let reader = BufReader::new(file);
-    for line in reader.lines().map(|l| l.unwrap()) {
+    for line in reader.lines().map(|l| String::from(l.unwrap().as_str().trim())) {
         if RE_NAME.is_match(&line) {
             if !first {
                 enemy_map.insert(curr_name.clone(), Enemy::new(
@@ -49,13 +49,7 @@ pub fn enemy_builder(filename: &String) -> Result<HashMap<String, Enemy>, Error>
             }
         }
         else if RE_ACTIONS.is_match(&line) {
-            let mut acts = vec![];
-            for cap in RE_ACTIONS.captures_iter(&line) {
-                for a in 1..cap.len() {
-                    acts.push(action_deserialize(&cap[a].to_string()));
-                }
-            }
-            curr_actions.push(acts);
+            curr_actions.push(read_pattern(&RE_ACTIONS, &line, 1));
         }
     }
 

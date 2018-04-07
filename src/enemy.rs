@@ -29,6 +29,7 @@ impl Enemy {
         }
     }
 
+    #[allow(dead_code)]
     pub fn get_patterns(&self) -> Vec<&Vec<Action>> {
         self.action_strings.iter().map(|x| x).collect()
     }
@@ -39,6 +40,7 @@ impl Enemy {
         }).collect()
     }
 
+    #[allow(dead_code)]
     pub fn print_patterns(&self) {
         self.action_strings.iter().map(|x| {
             x.iter().map(|y| {

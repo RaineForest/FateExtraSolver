@@ -40,6 +40,17 @@ impl Action {
             Action::Any     => "_______",
         })
     }
+
+    pub fn deserialize(s: &String) -> Action {
+        match s.as_ref() {
+            "A" => Action::Attack,
+            "B" => Action::Break,
+            "G" => Action::Guard,
+            "S" => Action::Special,
+            "_" => Action::Any,
+            _ => panic!("Deserialize bad value!"),
+        }
+    }
 }
 
 impl fmt::Display for Action {
