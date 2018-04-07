@@ -1,6 +1,7 @@
 
 use std::fmt;
 
+#[derive(Clone)]
 pub enum Action {
     Attack,
     Guard,

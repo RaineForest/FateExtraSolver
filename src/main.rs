@@ -1,7 +1,11 @@
 
+#[macro_use] extern crate lazy_static;
+extern crate regex;
+
 mod action;
 mod action_count;
 mod enemy;
+mod enemy_builder;
 
 use action::Action;
 use Action::*;
@@ -15,46 +19,35 @@ fn print_pattern(pattern: &Vec<Action>) {
     print!("\n");
 }
 
+#[allow(dead_code)]
 fn print_patterns(patterns: &Vec<&Vec<Action>>) {
     patterns.iter().map(|x| print_pattern(&x)).collect::<Vec<_>>();
 }
 
+fn get_counter(e: &Enemy, known: &Vec<Action>, threshold: f32) -> Vec<Action> {
+    Enemy::trump_string(
+        &Enemy::count_actions(&e.matching_strings(&known)),
+        &*ActionCount::get_safe_strat(threshold)
+    )
+}
+
 fn main() {
-    let e = Enemy::new(
-        String::from("Inspire"),
-        vec![
-            vec![Attack, Guard, Guard, Guard, Attack, Guard],
-            vec![Guard, Guard, Guard, Guard, Guard, Guard],
-            vec![Guard, Guard, Break, Break, Break, Guard],
-        ]
-    );
+    let enemies = enemy_builder::enemy_builder(&String::from("enemies.txt")).expect("Error in enemy builder");
 
-    let known = vec![Any, Guard, Any, Any, Any, Any];
-
-    let matching = e.matching_strings(&known);
+    let e = &enemies["Inspire"];
     println!("{}'s patterns:", e);
     e.print_patterns();
     println!("Counts: {:?}", Enemy::count_actions(&e.get_patterns()));
 
+    let known = vec![Any, Guard, Any, Any, Any, Any];
     println!("Known actions:");
     print_pattern(&known);
-
-    println!("{}'s matching patterns:", e);
-    print_patterns(&matching);
-    let counts = Enemy::count_actions(&matching);
-    println!("Counts: {:?}", &counts);
-
-    let aggressive_strat = |tup: &ActionCount| -> Action {
-        tup.get_max().what_trumps()
-    };
 
     let threshold1 = 0.1f32; // 10%
     let threshold2 = 0.4f32; // 40%
 
-    println!("Aggressive trumps:");
-    print_pattern(&Enemy::trump_string(&counts, &aggressive_strat));
     println!("Safe trumps: ({}%)", (threshold1 * 100.0f32).round() as i32);
-    print_pattern(&Enemy::trump_string(&counts, &*ActionCount::get_safe_strat(threshold1)));
+    print_pattern(&get_counter(&e, &known, threshold1));
     println!("Safe trumps: ({}%)", (threshold2 * 100.0f32).round() as i32);
-    print_pattern(&Enemy::trump_string(&counts, &*ActionCount::get_safe_strat(threshold2)));
+    print_pattern(&get_counter(&e, &known, threshold2));
 }

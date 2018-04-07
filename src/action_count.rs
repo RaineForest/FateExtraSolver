@@ -102,6 +102,9 @@ impl ActionCount {
         for (i, &f) in l.iter().enumerate() {
             if f > m {
                 m = f;
+                m_index.clear();
+                m_index.push(i);
+            } else if f == m {
                 m_index.push(i);
             }
         }

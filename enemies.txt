@@ -1,0 +1,14 @@
+Klein:
+B B A B B A
+A A G G A A
+B B B B B B
+
+Inspire: 
+A G G G A G
+G G G G G G
+G G B B G G
+
+Crix:
+A A B B B A
+B A B B A A
+A B B B A A

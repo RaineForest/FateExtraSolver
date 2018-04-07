@@ -15,6 +15,12 @@ impl fmt::Display for Enemy {
     }
 }
 
+impl fmt::Debug for Enemy {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "[{}, {:?}]", self.name, self.action_strings)
+    }
+}
+
 impl Enemy {
     pub fn new(n: String, a: Vec<Vec<Action>>) -> Enemy {
         Enemy {
