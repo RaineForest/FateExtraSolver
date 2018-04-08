@@ -34,6 +34,10 @@ impl Enemy {
         self.action_strings.iter().map(|x| x).collect()
     }
 
+    pub fn get_name(&self) -> &String {
+        &self.name
+    }
+
     pub fn matching_strings(&self, actions: &Vec<Action>) -> Vec<&Vec<Action>> {
         self.action_strings.iter().filter(|x| {
             x.iter().zip(actions.iter()).fold(true, |acc, (y, z)| { acc && (y == z) })

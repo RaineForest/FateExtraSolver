@@ -11,7 +11,6 @@ use action::Action;
 use action_count::ActionCount;
 use enemy::Enemy;
 
-use regex::Regex;
 use std::io::{self, Write};
 
 fn print_pattern(pattern: &Vec<Action>) {
@@ -34,12 +33,6 @@ fn get_counter(e: &Enemy, known: &Vec<Action>, threshold: f32) -> Vec<Action> {
 }
 
 fn main() {
-    lazy_static!{
-        static ref RE_SELECT: Regex = Regex::new(r"^(select)\s+(.+)$").unwrap();
-        static ref RE_PATTERN: Regex = Regex::new(r"^(solve)\s+([AGBS_])\s+([AGBS_])\s+([AGBS_])\s+([AGBS_])\s+([AGBS_])\s+([AGBS_])$").unwrap();
-        static ref RE_THRESHOLD: Regex = Regex::new(r"^(threshold)\s+(\d+(?:\.\d+)?)$").unwrap();
-    }
-
     let enemies = enemy_builder::enemy_builder(&String::from("enemies.txt")).expect("Error in enemy builder");
 
     let mut line_in = String::from("");
@@ -50,34 +43,62 @@ fn main() {
         print!("> ");
         io::stdout().flush().unwrap();
         io::stdin().read_line(&mut line_in).expect("Could not read input");
-        line_in = String::from(line_in.as_str().trim());
-        if RE_SELECT.is_match(&line_in) {
-            for cap in RE_SELECT.captures_iter(&line_in) {
-                selected_enemy = &enemies[&cap[2].to_string()]; // TODO: proper error handling
+        let tokens = line_in.as_str().trim().split_whitespace().collect::<Vec<_>>();
+
+        if tokens.len() == 0 {
+            continue;
+        }
+
+        match tokens[0] {
+            "select" => {
+                if tokens.len() != 2 {
+                    eprintln!("Improper arguments: select <Enemy name>");
+                } else {
+                    match enemies.get(tokens[1]) {
+                        Some(x) => selected_enemy = &x,
+                        None => eprintln!("Invalid enemy name \"{}\"", tokens[1]),
+                    }
+                }
+            },
+            "solve" => {
+                if tokens.len() != 7 {
+                    eprintln!("Improper arguments: solve _ _ _ _ _ _");
+                }
+                else if selected_enemy.get_name() == "" {
+                    eprintln!("No enemy selected to solve for.");
+                }
+                else {
+                    let p = tokens[1..].iter().map(|&x| Action::deserialize(&String::from(x))).collect::<Vec<_>>();
+                    print_pattern(&get_counter(&selected_enemy, &p, threshold));
+                }
             }
-        }
-        else if RE_PATTERN.is_match(&line_in) {
-            let p = enemy_builder::read_pattern(&RE_PATTERN, &line_in, 2);
-            print_pattern(&get_counter(&selected_enemy, &p, threshold));
-        }
-        else if RE_THRESHOLD.is_match(&line_in) {
-            for cap in RE_THRESHOLD.captures_iter(&line_in) {
-                threshold = cap[2].to_string().parse::<f32>().unwrap() / 100.0; // TODO: proper error handling
+            "threshold" => {
+                if tokens.len() != 2 {
+                    eprintln!("Improper arguments: threshold <0-100>");
+                } else {
+                    threshold = tokens[1].to_string().parse::<f32>().unwrap() / 100.0; // TODO: proper error handling
+                }
             }
-        }
-        else if line_in == "exit" {
-            break;
-        }
-        else if line_in == "help" {
-            println!("Commands available:\n \
-                      select <Enemy name> => future commands will use this enemy as a reference\n \
-                      solve <[A|G|B|S|_] * 6, space sep> => solve this pattern\n \
-                      threshold <[0-100]> => set damage potential, doesn't do anything over 50%\n \
-                      help => print this message!\n \
-                      exit => close the application");
-        }
-        else {
-            println!("Invalid command");
+            "list" => {
+                enemies.iter().map(|(k,_)| {
+                    println!("{}", k);
+                }).collect::<Vec<_>>();
+            }
+            "exit" => {
+                break;
+            }
+            "help" => {
+                println!("Commands available:\n \
+                          select <Enemy name> => future commands will use this enemy as a reference\n \
+                          solve <[A|G|B|S|_] * 6, space sep> => solve this pattern\n \
+                          threshold <[0-100]> => set damage potential, doesn't do anything over 50%\n \
+                          list => list all enemies loaded\n \
+                          help => print this message!\n \
+                          exit => close the application");
+            }
+            _ => {
+                eprintln!("Invalid command");
+            }
         }
     }
 }
