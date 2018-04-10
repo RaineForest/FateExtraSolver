@@ -12,3 +12,230 @@ Crix:
 A A B B B A
 B A B B A A
 A B B B A A
+
+Viper:
+G B G B G B
+G G B B G G
+G B B B G B
+
+Cluster Horn
+G B A G B A
+B A G B A G
+A G B A G B
+
+Pradox:
+B A B B G B
+B B A B B A
+B B B A B B
+B B B B G B
+B B G G B B
+
+Insanity:
+A A B B B A
+A A B G B A
+A B B A B A
+A B B B A A
+B A B B A A
+
+Fishbite:
+A A A A A B
+A A B A A G
+A A B B A A
+A A B B A B
+B A A A A A
+B A A A G A
+
+Swindle:
+G B A B G B
+G B B B G G
+G B G B B G
+G B G B G B
+G G B B G B
+
+Exehorn:
+A G B A G B
+B A G B A G
+B A G B G A
+G A B G A B
+G B A G B A
+
+Escher:
+B A B A B A
+B A B B G B
+B B A B B G
+B B B A B B
+B B B A G B
+B B B B A B
+B B B B G B
+B B G A B B
+B G B G B G
+
+Prophecy:
+A G A G A G
+A G G B G G
+B G B G B G
+G A A B A B
+G A G G G G
+G B G A G G
+G B G G G G
+G G A G B G
+G G G B G G
+
+WeatherDrive:
+A A B B A A
+A A G G A A
+B B A A B B
+B B G G B B
+G G A A G G
+G G B B G G
+
+Earthcall:
+A A B G B A
+A B B A B A
+A B B B A A
+A G B B B A
+B A B B A A
+B A B B B A
+B B B A A A
+
+Monophobia:
+A B G B B B
+A G G G B G
+B B B A B A
+B G G G G A
+G A A B A A
+G B B A B B
+
+Agitator:
+G B B B A G
+G B B B G G
+G B A B G B
+G B G B G B
+G B G B B B
+G B G B B G
+G G B B A G
+G G B B B G
+G G B B G B
+G G B B G G
+
+Moondust:
+S A A A B B
+S A A G B B
+S A G B B B
+S B A A A B
+S B A A B B
+S B A A G B
+S B A B B B
+S B A G A B
+S B B A A B
+S B B A G B
+S B B G A B
+S B B G G B
+S B G A A B
+S B G B B B
+S B G G A B
+S B G G B B
+S B G G G B
+S G A A B B
+S G A B B B
+S G A G B B
+S G G A B B
+S G G B B B
+B A A A B B
+B A A B B B
+B A A G B B
+B A G A B B
+B A G B B B
+B B A A A B
+B B A A G B
+B B A G A B
+B B A G G B
+B B B A A B
+B B B A G B
+B B B G A B
+B B G A A B
+B B G A G B
+B B G G A B
+B B G G G B
+B G A A B B
+B G A B B B
+B G A G B B
+B G G A B B
+B G G B B B
+B G G G B B
+
+GlassRunner:
+A A B B B B
+A A B B G G
+A A G G B B
+A A G G G G
+B B A A A A
+B B A A G G
+B B G G A A
+B B G G G G
+G G A A A A
+G G A A B B
+G G B B A A
+G G B B B B
+
+Carnivore:
+A A A B B A
+A A A B G A
+A A A G A A
+A B B G A A
+A B G B A A
+A B G G A A
+A G B B A A
+A G B G A A
+A G G B A A
+A G G G A A
+B A A B A A
+B A A B G A
+B A A G A A
+B A B A B A
+B A B A G A
+B A G A B A
+B A G A G A
+G A A G A A
+G A B A B A
+G A B A G A
+G A B A G G
+G A G A B A
+G A G A G A
+G B B G B B
+G B G B A A
+
+Agoraphobia:
+1 2 3 4 5 6
+A B G A A A
+A B G B A A
+A B G B B B
+A G G G B G
+B G G G G A
+G A A B A A
+G A B G A A
+G B B A B B
+
+NephilimAlpha:
+A B A G B G
+A B G A G A
+A B G B G B
+A G A B A G
+A G A G B G
+A G B G A B
+A G B G A G
+A G G A B G
+B A B A B G
+B A B A G B
+B A G A G A
+B G A B A B
+B G A G B G
+B G B G B A
+G A B G A A
+G A B G A G
+G A G A B A
+G A G A B G
+G A G A G A
+G B A G B A
+G B G A G A
+
